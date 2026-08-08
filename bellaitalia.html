@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bella Itália | Cardápio Premium</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        surface: '#050505',
+                        surfaceElevated: '#111111',
+                        surfaceBorder: '#222222',
+                        itaRed: '#CD212A',
+                        itaGreen: '#008C45',
+                        itaWhite: '#F4F5F0'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #050505;
+            background-image: linear-gradient(to bottom, rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.95)), url('https://images.unsplash.com/photo-1594212580737-33160a2b5e28?auto=format&fit=crop&w=1920&q=80');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            color: #F4F5F0; 
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .italy-bar {
+            height: 4px;
+            background: linear-gradient(to right, #008C45 33.3%, #F4F5F0 33.3%, #F4F5F0 66.6%, #CD212A 66.6%);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-itaGreen selection:text-white flex flex-col min-h-screen">
+
+    <div class="italy-bar fixed top-0 w-full z-[60]"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-1 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-surfaceBorder shadow-md">
+        <div class="max-w-7xl mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-itaRed flex items-center justify-center bg-itaGreen text-white font-bold hidden sm:flex">
+                    BI
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg md:text-xl tracking-tight text-itaWhite flex items-center gap-1 md:gap-2">
+                        Bella Itália <i class="ph-fill ph-pizza text-itaRed"></i>
+                    </h1>
+                    <span class="text-[10px] md:text-xs text-zinc-400 font-medium tracking-widest uppercase">Pizzaria & Burger</span>
+                </div>
+            </div>
+            <!-- Botão Ver Carrinho no Header -->
+            <button onclick="toggleCart()" class="flex items-center gap-2 bg-surfaceBorder hover:bg-surfaceElevated transition-colors px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-bold text-white border border-surfaceBorder">
+                <i class="ph-fill ph-shopping-cart text-lg md:text-xl"></i>
+                <span class="hidden sm:inline">Ver Carrinho</span>
+                <span id="header-cart-count" class="bg-itaRed text-white text-xs px-2 py-0.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-28 md:pt-36 pb-10 md:pb-16 px-4 border-b border-surfaceBorder">
+        <div class="absolute inset-0 z-0 opacity-10">
+            <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1920&q=80" alt="Fundo" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-surface/80 to-surface/90"></div>
+        </div>
+        <div class="max-w-6xl mx-auto text-center relative z-10">
+            <h2 class="text-3xl md:text-6xl font-extrabold tracking-tight mb-3 md:mb-4 text-balance text-itaWhite">
+                O sabor <span class="text-itaRed">verdadeiro</span> da Itália em Porteirinha.
+            </h2>
+            <p class="text-zinc-400 max-w-2xl mx-auto text-sm md:text-lg mb-6 md:mb-8 px-2">Navegue pelas nossas categorias e adicione os itens ao seu carrinho. Tudo feito com os melhores ingredientes.</p>
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 text-xs md:text-sm text-zinc-300 font-medium">
+                <span class="flex items-center gap-2 bg-surfaceElevated/60 backdrop-blur-sm px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-surfaceBorder"><i class="ph ph-clock text-itaGreen text-base md:text-lg"></i> 19h às 23h</span>
+                <span class="flex items-center gap-2 bg-surfaceElevated/60 backdrop-blur-sm px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-surfaceBorder"><i class="ph ph-map-pin text-itaRed text-base md:text-lg"></i> R. Barão do Rio Branco, 513</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegação de Categorias -->
+    <div class="sticky top-[68px] md:top-[84px] z-40 bg-surface/70 backdrop-blur-lg border-b border-surfaceBorder shadow-xl shadow-black/50">
+        <div class="max-w-7xl mx-auto px-2 md:px-4">
+            <div class="flex overflow-x-auto no-scrollbar gap-2 md:gap-3 py-3 md:py-4 scroll-smooth px-2" id="category-tabs">
+                <!-- Gerado via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Container Principal do Menu -->
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-8 md:py-12">
+        <div id="menu-container"></div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="border-t border-surfaceBorder bg-surfaceElevated/90 backdrop-blur-md py-8 md:py-10 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-zinc-500 text-xs md:text-sm">&copy; 2026 Bella Itália Pizzaria. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Botões Fixos -->
+    <div class="fixed bottom-4 right-4 md:bottom-6 md:right-6 flex flex-col gap-3 z-50">
+        <button onclick="toggleCart()" class="w-12 h-12 md:w-14 md:h-14 bg-surfaceElevated border border-surfaceBorder hover:border-itaGreen text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110 relative group">
+            <i class="ph-fill ph-shopping-cart text-2xl md:text-3xl group-hover:text-itaGreen transition-colors"></i>
+            <span id="floating-cart-count" class="absolute -top-1 -right-1 bg-itaRed text-white text-[10px] md:text-xs font-bold w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-full hidden">0</span>
+        </button>
+        <a href="https://wa.me/5538988141262" target="_blank" class="w-12 h-12 md:w-14 md:h-14 bg-itaGreen hover:bg-[#007338] text-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,140,69,0.4)] transition-transform hover:scale-110">
+            <i class="ph-fill ph-whatsapp-logo text-2xl md:text-3xl"></i>
+        </a>
+    </div>
+
+    <!-- Modal do Carrinho -->
+    <div id="cart-modal" class="fixed inset-0 z-[70] hidden bg-black/80 backdrop-blur-sm flex justify-end">
+        <div class="w-full max-w-md bg-surface h-full shadow-2xl border-l border-surfaceBorder flex flex-col transform translate-x-full transition-transform duration-300" id="cart-drawer">
+            <!-- Header do Carrinho -->
+            <div class="p-5 border-b border-surfaceBorder flex justify-between items-center bg-surfaceElevated">
+                <h2 class="text-xl font-bold flex items-center gap-2 text-itaWhite">
+                    <i class="ph-fill ph-shopping-cart text-itaGreen"></i> Finalizar Pedido
+                </h2>
+                <button onclick="toggleCart()" class="text-zinc-400 hover:text-itaRed transition-colors bg-surfaceBorder p-1.5 rounded-full">
+                    <i class="ph ph-x text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Conteúdo com Rolagem (Itens + Formulário de Endereço/Pagamento) -->
+            <div class="flex-grow overflow-y-auto p-5 flex flex-col gap-6 no-scrollbar">
+                <!-- Seção 1: Itens -->
+                <div>
+                    <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">1. Itens no Carrinho</h3>
+                    <div id="cart-items" class="flex flex-col gap-3">
+                        <!-- Injetado via JS -->
+                    </div>
+                </div>
+
+                <!-- Seção 2: Endereço -->
+                <div class="bg-surfaceElevated border border-surfaceBorder p-4 rounded-xl">
+                    <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                        <i class="ph-fill ph-map-pin text-itaRed"></i> 2. Endereço de Entrega
+                    </h3>
+                    <div class="flex flex-col gap-3">
+                        <input type="text" id="client-name" placeholder="Seu Nome Completo" class="bg-surface border border-surfaceBorder text-itaWhite text-sm rounded-lg p-2.5 focus:outline-none focus:border-itaGreen">
+                        <input type="text" id="client-address" placeholder="Rua, Número, Bairro e Ponto de Referência" class="bg-surface border border-surfaceBorder text-itaWhite text-sm rounded-lg p-2.5 focus:outline-none focus:border-itaGreen">
+                    </div>
+                </div>
+
+                <!-- Seção 3: Forma de Pagamento -->
+                <div class="bg-surfaceElevated border border-surfaceBorder p-4 rounded-xl">
+                    <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                        <i class="ph-fill ph-wallet text-itaGreen"></i> 3. Forma de Pagamento
+                    </h3>
+                    <div class="grid grid-cols-3 gap-2" id="payment-options">
+                        <button type="button" onclick="setPayment('Pix')" class="pay-btn py-2 px-3 rounded-lg border border-surfaceBorder bg-surface text-xs font-bold text-zinc-300 hover:border-itaGreen transition-all flex flex-col items-center gap-1">
+                            <i class="ph-fill ph-qr-code text-lg text-itaGreen"></i> Pix
+                        </button>
+                        <button type="button" onclick="setPayment('Cartão')" class="pay-btn py-2 px-3 rounded-lg border border-surfaceBorder bg-surface text-xs font-bold text-zinc-300 hover:border-itaGreen transition-all flex flex-col items-center gap-1">
+                            <i class="ph-fill ph-credit-card text-lg text-itaRed"></i> Cartão
+                        </button>
+                        <button type="button" onclick="setPayment('Dinheiro')" class="pay-btn py-2 px-3 rounded-lg border border-surfaceBorder bg-surface text-xs font-bold text-zinc-300 hover:border-itaGreen transition-all flex flex-col items-center gap-1">
+                            <i class="ph-fill ph-money text-lg text-yellow-500"></i> Dinheiro
+                        </button>
+                    </div>
+                    <!-- Campo de Troco (Se dinheiro) -->
+                    <div id="change-container" class="mt-3 hidden">
+                        <input type="text" id="client-change" placeholder="Troco para quanto? (Ex: R$ 50,00)" class="w-full bg-surface border border-surfaceBorder text-itaWhite text-sm rounded-lg p-2.5 focus:outline-none focus:border-itaGreen">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer do Carrinho -->
+            <div class="p-5 border-t border-surfaceBorder bg-surfaceElevated">
+                <div class="flex justify-between items-center mb-4 text-lg font-bold text-itaWhite">
+                    <span>Total:</span>
+                    <span id="cart-total" class="text-itaGreen">R$ 0,00</span>
+                </div>
+                <button onclick="finalizeOrder()" class="w-full bg-itaGreen hover:bg-[#007338] text-white py-3 md:py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-[0_0_15px_rgba(0,140,69,0.4)] text-sm md:text-base">
+                    <i class="ph-fill ph-whatsapp-logo text-xl"></i> Enviar Pedido no WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DADOS DO MENU ---
+        const menuData = [
+            {
+                category: "Artesanais", id: "artesanais", 
+                bannerImg: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=80",
+                items: [
+                    { n: "Bella Itália", d: "Pão de brioche, 2 hambúrguer artesanal 150gr cada, queijo prato, bacon tiras, barbecue, cebola caramelizada, salada", p: "32,00" },
+                    { n: "Coliseu", d: "Pão de brioche, 150gr hambúrguer artesanal, queijo prato, cheddar, salada", p: "24,00" },
+                    { n: "Genova", d: "Pão de brioche, 150gr hambúrguer artesanal, queijo prato, cheddar, cebola caramelizada, peito de peru, palmito e salada", p: "27,00" },
+                    { n: "Milão", d: "Pão de brioche, 240g de picanha moida, queijo mussarela, bacon, salada e 2 molhos a escolha", p: "28,00" },
+                    { n: "Palermo", d: "Pão de brioche, 150gr hambúrguer artesanal, queijo prato, cheddar, catupiry, cebola caramelizada, palmito e salada", p: "26,00" },
+                    { n: "Roma", d: "Pão de brioche, 150gr hambúrguer artesanal, bacon tiras, queijo prato, salada", p: "25,00" },
+                    { n: "Turim", d: "Pão de brioche, hambúrguer artesanal 180g, queijo prato, cheddar, ovo, cream cheese, bacon tiras e tomate", p: "27,00" },
+                    { n: "Pistache", d: "Hambúrguer especial artesanal", p: "13,00" }
+                ]
+            },
+            {
+                category: "Drinks", id: "drinks",
+                bannerImg: "https://site-canopus.s3.sa-east-1.amazonaws.com/blog_canopus_receitas_drinks_verao_com_sem_alcool_b6cf010486.jpeg",
+                items: [
+                    { n: "Aperol Spritz", d: "Drink refrescante", p: "25,00" },
+                    { n: "Blue", d: "Drink tropical colorido", p: "25,00" },
+                    { n: "Gin Morango Tanqueray", d: "Sofisticado e aromático", p: "25,00" },
+                    { n: "Ice Blue", d: "Refrescância máxima", p: "25,00" },
+                    { n: "Lagoa Azul", d: "Clássico drink azul vibrante", p: "25,00" },
+                    { n: "Malibu", d: "Sabor doce do coco", p: "25,00" },
+                    { n: "Sminorff Melancia", d: "Leve e frutado", p: "18,00" }
+                ]
+            },
+            {
+                category: "Lanches", id: "lanches",
+                bannerImg: "https://cdn6.campograndenews.com.br/uploads/noticias/2025/02/28/5e42e8f5d1fc5c42e86f5e9eb3e13a98e797bd69.jpeg",
+                items: [
+                    { n: "Bauru", d: "Pão, hamburguer, presunto, ovo, queijo, salada, batata e milho", p: "16,00" },
+                    { n: "Calafrango", d: "Pão, calabresa, frango, queijo, salada, batata e milho", p: "16,00" },
+                    { n: "Hambúrguer", d: "Pão, carne, salada, batata e milho", p: "11,00" },
+                    { n: "Misto Especial", d: "Lanche rápido e saboroso", p: "15,00" },
+                    { n: "X Bacon", d: "Pão, hamburguer, bacon, queijo, milho, salada, batata e milho", p: "16,00" },
+                    { n: "X Bacon Egg", d: "Pão, hamburguer, bacon, ovo, queijo, salada, milho e batata", p: "18,00" },
+                    { n: "X Burguer", d: "Pão, hamburguer, queijo, milho, salada, batata e milho", p: "14,00" },
+                    { n: "X Burguer Egg", d: "Pão, hamburguer, queijo, ovo, salada, batata e milho", p: "15,00" },
+                    { n: "X Dog", d: "Pão, hamburguer, queijo, salsicha, salada, batata e milho", p: "16,00" },
+                    { n: "X Frango", d: "Pão, hamburguer, queijo, frango, salada, batata e milho", p: "16,00" },
+                    { n: "Linguiça Toscana", d: "Pão, linguiça toscana, salada, batata e milho", p: "16,00" },
+                    { n: "X Salada", d: "Pão, hamburguer, queijo, presunto, salada, batata e milho", p: "14,00" },
+                    { n: "X Tudo", d: "Pão, hamburguer, calabresa, queijo bacon, frango, ovo, presunto, salsicha, salada, batata e milho", p: "24,00" }
+                ]
+            },
+            {
+                category: "Tapioca", id: "tapioca",
+                bannerImg: "https://sabores-new.s3.amazonaws.com/public/2024/11/tapioca-de-frango.jpg",
+                items: [
+                    { n: "4 Queijos", d: "Mix de queijos", p: "20,00" },
+                    { n: "A Moda", d: "Mussarela, presunto, frango e milho", p: "20,00" },
+                    { n: "Bacon", d: "Mussarela e bacon", p: "20,00" },
+                    { n: "Bolonhesa", d: "Mussarela, presunto, carne moida ao molho", p: "20,00" },
+                    { n: "Calabresa", d: "Mussarela e calabresa", p: "20,00" },
+                    { n: "Carne Seca 1", d: "Mussarela, carne seca, catupiry", p: "20,00" },
+                    { n: "Carne Seca 2", d: "Mussarela, carne seca, bacon, calabresa", p: "20,00" },
+                    { n: "Chocolate C/ Frutas da Estação", d: "Chocolate e frutas frescas", p: "20,00" },
+                    { n: "Chocolate Derretido", d: "Cacau puro", p: "20,00" },
+                    { n: "Chocolate com Morango", d: "O sabor clássico", p: "20,00" },
+                    { n: "Doce de Leite", d: "Cremosa e deliciosa", p: "20,00" },
+                    { n: "Frango C/ Bacon", d: "Mussarela, frango desfiado e bacon", p: "20,00" },
+                    { n: "Frango C/ Catupiry", d: "Mussarela, frango desfiado e catupiry", p: "20,00" },
+                    { n: "Frango C/ Cheddar", d: "Mussarela, frango desfiado, cheddar", p: "20,00" },
+                    { n: "Italiana", d: "Mussarela, calabresa, bacon e catupiry", p: "20,00" },
+                    { n: "Leite Condensado C/Coco", d: "Sabor doce da infância", p: "20,00" },
+                    { n: "Manteiga", d: "Simples na manteiga", p: "14,00" },
+                    { n: "Mussarela", d: "Mussarela e oregano", p: "20,00" },
+                    { n: "Peito de Peru", d: "Mussarela, peito de peru, milho e catupiry", p: "20,00" },
+                    { n: "Portuguesa", d: "Mussarela, calabresa, presunto, ovo e milho", p: "20,00" },
+                    { n: "Romeu e Julieta", d: "Mussarela e goiabada", p: "20,00" }
+                ]
+            },
+            {
+                category: "Omelete", id: "omelete",
+                bannerImg: "https://www.receitamaneira.com.br/wp-content/uploads/2023/05/Omelete-facil-e-rapido-de-fazer.jpg",
+                items: [
+                    { n: "Omelete Carne Seca com Mussarela", d: "Ovo batido bem recheado", p: "20,00" },
+                    { n: "Omelete de Mussarela com Tomate", d: "Ovo batido bem recheado", p: "20,00" },
+                    { n: "Omelete de Pizza", d: "Sabor clássico", p: "20,00" },
+                    { n: "Omelete Frango com Mussarela", d: "Ovo batido bem recheado", p: "20,00" }
+                ]
+            },
+            {
+                category: "Pizza", id: "pizza",
+                bannerImg: "https://b.zmtcdn.com/data/collections/c7d46261b33b5d464ec536c1706a72ec_1754474018.png",
+                items: [
+                    { n: "Pizza 3 Versões", d: "Mussarela, peito de peru, cream cheese, requeijão cremoso, bacon, salaminho, calabresa, milho e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza 4 Queijos", d: "Mussarela, catupiry, parmesão e cheddar, tomate e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza A Moda", d: "Mussarela, frango desfiado, presunto, milho, cebola e tomate", p: "23,00 (A partir)" },
+                    { n: "Pizza A Moda da Casa", d: "Mussarela, presunto, bacon, ovo, catupiry, cebola, azeitona", p: "23,00 (A partir)" },
+                    { n: "Pizza Atum", d: "Mussarela, atum, catupiry, tomate e cebola", p: "23,00 (A partir)" },
+                    { n: "Pizza Avassaladora", d: "Mussarela, peito de peru, requeijão cremoso, palmito, bacon, tomate, oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Bacon", d: "Mussarela, bacon e tomate", p: "23,00 (A partir)" },
+                    { n: "Pizza Baiana", d: "Calabresa moída, mussarela, catupiry, pimenta calabresa, cebola e tomate", p: "23,00 (A partir)" },
+                    { n: "Pizza Bolonhesa", d: "Mussarela, carne moída ao molho, presunto, oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Calabresa", d: "Mussarela, calabresa, azeitona e cebola", p: "23,00 (A partir)" },
+                    { n: "Pizza Calafrango", d: "Mussarela, frango e calabresa", p: "23,00 (A partir)" },
+                    { n: "Pizza Camarão", d: "Mussarela, camarão, catupiry, cebola, azeitona e oregano", p: "28,00 (A partir)" },
+                    { n: "Pizza Carne Seca 1", d: "Mussarela, carne seca, catupiry, cebola e tomate", p: "23,00 (A partir)" },
+                    { n: "Pizza Carne Seca 2", d: "Mussarela, carne seca, bacon, calabresa, cebola e tomate", p: "23,00 (A partir)" },
+                    { n: "Pizza Cremosa", d: "Frango desfiado, mussarela, creme de leite, milho, palmito, tomate e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Deliciosa", d: "Mussarela, presunto, bacon, salaminho, requeijão cremoso, tomate e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Espanhola", d: "Mussarela, presunto, palmito, ervilha, milho, ovo, cebola e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Frango a Bolonhesa", d: "Mussarela, frango desfiado ao molho", p: "23,00 (A partir)" },
+                    { n: "Pizza Frango c/ Bacon", d: "Mussarela, frango desfiado, bacon, oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Frango c/ Catupiry", d: "Mussarela, frango desfiado, catupiry, azeitona e milho", p: "23,00 (A partir)" },
+                    { n: "Pizza Frango c/ Cheddar", d: "Mussarela, frango desfiado, cheddar, oregano e azeitona", p: "23,00 (A partir)" },
+                    { n: "Pizza Frango c/ Palmito", d: "Mussarela, frango desfiado, oregano, palmito", p: "23,00 (A partir)" },
+                    { n: "Pizza Italiana", d: "Mussarela, calabresa, bacon, cebola, catupiry", p: "23,00 (A partir)" },
+                    { n: "Pizza Lombinho", d: "Mussarela, lombo canadense, milho, cebola e tomate", p: "23,00 (A partir)" },
+                    { n: "Pizza Magnifica", d: "Mussarela, creme de leite, presunto, calabresa, pimentão, palmito, cebola e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Marguerita", d: "Mussarela, molho de tomate, manjericão, tomate e azeitona", p: "23,00 (A partir)" },
+                    { n: "Pizza Milho", d: "Mussarela, milho, catupiry, cebola, tomate e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Mineira", d: "Mussarela, presunto, calabresa, frango, bacon, milho, tomate, catupiry, azeitona e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Mussarela", d: "Mussarela, tomate e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Nordestina", d: "Mussarela, carne seca, calabresa, bacon, creme de leite, catupiry, oregano, cebola e tomate", p: "25,00 (A partir)" },
+                    { n: "Pizza Palmito", d: "Mussarela, palmito, milho, oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Paulista", d: "Mussarela, lombo, calabresa, bacon, cream cheese, catupiry e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Peito de Peru", d: "Mussarela, peito de peru, milho, catupiry, tomate e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Pepperoni", d: "Mussarela, salaminho, pimentão, pimenta calabresa", p: "23,00 (A partir)" },
+                    { n: "Pizza Portuguesa", d: "Mussarela, calabresa, presunto, ovo, milho, cebola e tomate", p: "23,00 (A partir)" },
+                    { n: "Pizza Saborosa", d: "Mussarela, presunto, requeijão cremoso, bacon, milho, tomate, azeitona e oregano", p: "23,00 (A partir)" },
+                    { n: "Pizza Sertão", d: "Mussarela, carne seca, bacon, requeijão cremoso, cream cheese, pimenta calabresa, pimentão, cebola e oregano", p: "25,00 (A partir)" }
+                ]
+            },
+            {
+                category: "Pizza Doce", id: "pizzadoce",
+                bannerImg: "https://www.academiaassai.com.br/sites/default/files/aumente-suas-vendas-com-essas-dicas-de-pizza-doce.jpg",
+                items: [
+                    { n: "Pizza Doce Chocolate com M&M", d: "Massa doce com chocolate e confeitos M&M", p: "25,00 (A partir)" },
+                    { n: "Pizza Doce Creme de Ninho", d: "Massa doce e farto recheio de creme de Ninho", p: "25,00 (A partir)" },
+                    { n: "Pizza Doce Prestígio", d: "Chocolate e recheio de coco", p: "25,00 (A partir)" },
+                    { n: "Pizza Doce Romeu e Julieta", d: "Mussarela e goiabada", p: "25,00 (A partir)" }
+                ]
+            },
+            {
+                category: "Porção", id: "porcao",
+                bannerImg: "https://img.magnific.com/fotos-premium/porcao-de-carne-com-batata-frita-e-mandioca-frita-cebola-com-legumes-e-pimentao_70216-3520.jpg",
+                items: [
+                    { n: "Batata 300g", d: "Fritas Tradicionais", p: "15,00" },
+                    { n: "Caldo", d: "Saboroso e quente", p: "13,00" },
+                    { n: "Carne 300g", d: "Carne bem temperada", p: "22,00" },
+                    { n: "Frango Empanado com Fritas", d: "Porção de frango com batatas", p: "50,00" },
+                    { n: "Frango Empanado com Mandioca", d: "Porção de frango com mandioca", p: "50,00" },
+                    { n: "Frios Rápidos", d: "Salaminho e azeitona", p: "25,00" },
+                    { n: "Ovo de Codorna 12 UN", d: "12 unidades de ovo de codorna", p: "14,00" },
+                    { n: "Peixe Empanado com Fritas", d: "Iscas com batatas", p: "65,00" },
+                    { n: "Peixe Empanado com Mandioca", d: "Iscas com mandioca", p: "65,00" },
+                    { n: "Picanha com Fritas", d: "Picanha suculenta e batatas fritas", p: "75,00" },
+                    { n: "Picanha com Mandioca", d: "Picanha suculenta e mandioca", p: "75,00" },
+                    { n: "Porções Batata da Casa", d: "Batata frita, cheddar, catupiry, bacon e mussarela", p: "30,00 (A partir)" },
+                    { n: "Porções Batata Frita", d: "Porções generosas de batata frita", p: "25,00 (A partir)" },
+                    { n: "Porções Calabresa Acebolada c/ Fritas", d: "Calabresa em rodelas, cebola e batatas", p: "40,00 (A partir)" },
+                    { n: "Porções Carne c/ Fritas", d: "Carne e batatas", p: "55,00 (A partir)" },
+                    { n: "Porções Carne c/ Mandioca", d: "Carne e mandioca", p: "55,00 (A partir)" },
+                    { n: "Porções Carne, Mandioca e Fritas", d: "O combo completo", p: "45,00 (A partir)" },
+                    { n: "Porções Fígado Acebolado", d: "Fígado acebolado perfeito", p: "30,00 (A partir)" },
+                    { n: "Porções Filé Mignon Mandioca e Fritas", d: "Filé mignon com mandioca e batata frita", p: "55,00 (A partir)" },
+                    { n: "Porções Filé Mignon com Fritas", d: "Filé mignon e fritas", p: "65,00 (A partir)" },
+                    { n: "Porções Filé Mignon com Mandioca", d: "Filé mignon e mandioca", p: "65,00 (A partir)" },
+                    { n: "Porções Frango Empanado", d: "Tiras de frango", p: "35,00 (A partir)" },
+                    { n: "Porções Frango Empanado, Mandioca e Fritas", d: "Combo frango", p: "46,00 (A partir)" },
+                    { n: "Porções Mini Pastel", d: "Mini pastéis fritos na hora", p: "16,00 (A partir)" },
+                    { n: "Porções Peixe Empanado Tilápia", d: "Tilápia empanada", p: "29,00 (A partir)" },
+                    { n: "Porções Peixe Empanado, Mandioca e Fritas", d: "Combo do mar completo", p: "55,00 (A partir)" },
+                    { n: "Tulipa com Fritas", d: "Asinhas com batata", p: "50,00" },
+                    { n: "Tulipa com Mandioca", d: "Asinhas com mandioca", p: "50,00" }
+                ]
+            },
+            {
+                category: "Diversos", id: "diversos",
+                bannerImg: "https://static.itdg.com.br/images/640-auto/d2fbe14b7374e6cf9e927c121720149c/curc-baixa.jpg",
+                items: [
+                    { n: "Garrafinha", d: "Item Diverso", p: "2,00" },
+                    { n: "Pimenta Grande", d: "Tempero especial em vidro grande", p: "26,00" },
+                    { n: "Pimenta Pequena", d: "Tempero especial em vidro pequeno", p: "15,00" }
+                ]
+            },
+            {
+                category: "Molho Extra", id: "molho",
+                bannerImg: "https://flow-content.google/image/242fdaf8-d588-45a8-baba-255c1c01cbaf?Expires=1786166732&KeyName=labs-flow-prod-cdn-key&Signature=0N15Zl8mK9gpdeqepvsOoNmLfng",
+                items: [
+                    { n: "Molho Barbecue", d: "Adicional de Molho", p: "1,00" },
+                    { n: "Molho Especial", d: "Adicional de Molho da Casa", p: "1,00" },
+                    { n: "Molho Maionese Temperada", d: "Adicional", p: "1,00" },
+                    { n: "Molho Picante", d: "Adicional", p: "1,00" },
+                    { n: "Molho Verde", d: "Adicional clássico", p: "1,00" }
+                ]
+            },
+            {
+                category: "Refri 1L", id: "refri1l",
+                bannerImg: "https://flow-content.google/image/76e9d715-00f3-4ec1-9e6c-6635383892d8?Expires=1786166984&KeyName=labs-flow-prod-cdn-key&Signature=tlgKRHvE-nZKGktPtaL3QoQsSNU",
+                items: [
+                    { n: "Coca 1 L Zero", d: "Refrigerante Garrafa 1L", p: "10,00" },
+                    { n: "Coca Cola 1L", d: "Refrigerante Garrafa 1L", p: "10,00" },
+                    { n: "Guarana 1l", d: "Refrigerante Garrafa 1L", p: "10,00" }
+                ]
+            },
+            {
+                category: "Refri 2L", id: "refri2l",
+                bannerImg: "https://flow-content.google/image/b342c416-dae0-4234-b406-6f0f8c086592?Expires=1786167209&KeyName=labs-flow-prod-cdn-key&Signature=HBSd6sRieZW-ZUlVNxrO0jGqElI",
+                items: [
+                    { n: "Coca 2 Litros Zero", d: "Refrigerante Garrafa 2L", p: "15,00" },
+                    { n: "Coca Cola 2L", d: "Refrigerante Garrafa 2L", p: "15,00" },
+                    { n: "Fanta Laranja 2L", d: "Refrigerante Garrafa 2L", p: "13,00" },
+                    { n: "Guarana 2L", d: "Refrigerante Garrafa 2L", p: "14,00" },
+                    { n: "Sprite 2 Litros", d: "Refrigerante Garrafa 2L", p: "13,00" }
+                ]
+            },
+            {
+                category: "Refri 600ML", id: "refri600",
+                bannerImg: "https://flow-content.google/image/5045fda1-b778-4042-9bea-c09b7a6f491f?Expires=1786167311&KeyName=labs-flow-prod-cdn-key&Signature=lFu-dyCPKeUozFHE0ATxm_agHA4",
+                items: [
+                    { n: "Coca 600 ML Zero Açucar", d: "Refrigerante 600ml", p: "7,00" },
+                    { n: "Coca Cola 600ML", d: "Refrigerante 600ml", p: "7,00" }
+                ]
+            },
+            {
+                category: "Refri Lata 350ML", id: "refrilata",
+                bannerImg: "https://flow-content.google/image/1a76522a-4d66-4b22-9d76-24861b927050?Expires=1786167441&KeyName=labs-flow-prod-cdn-key&Signature=fKZBAiD3oFANKQjQR0OjmOjbnNU",
+                items: [
+                    { n: "Coca 250 ML", d: "Refrigerante Lata Mini", p: "4,00" },
+                    { n: "Coca Cola Lata 350ML", d: "Refrigerante Lata", p: "6,00" },
+                    { n: "Coca Lata Zero", d: "Refrigerante Lata", p: "6,00" },
+                    { n: "Coca Zero Lata 350ML", d: "Refrigerante Lata", p: "6,00" },
+                    { n: "Fanta Laranja Lata 350ML", d: "Refrigerante Lata", p: "6,00" },
+                    { n: "Fanta Uva Lata 350ML", d: "Refrigerante Lata", p: "6,00" },
+                    { n: "Guaraná Lata 350ML", d: "Refrigerante Lata", p: "6,00" },
+                    { n: "Guarana Zero Lata 350ML", d: "Refrigerante Lata", p: "6,00" },
+                    { n: "Sprite Lata 350ML", d: "Refrigerante Lata", p: "6,00" }
+                ]
+            },
+            {
+                category: "Refrigerantes e Águas", id: "aguas",
+                bannerImg: "https://flow-content.google/image/cf9097f2-6546-423f-9ca2-311bd5defad8?Expires=1786167701&KeyName=labs-flow-prod-cdn-key&Signature=BmqszvNWtk8bkL4OEbvRo4SDFmM",
+                items: [
+                    { n: "Agua 2 Litros", d: "Água Garrafa 2L", p: "7,00" },
+                    { n: "Agua C/ Gas", d: "Água com Gás Garrafa", p: "4,50" },
+                    { n: "Agua S/ Gas", d: "Água Mineral Garrafa", p: "3,50" },
+                    { n: "Energético Fusion 1 L", d: "Energético Garrafa", p: "12,00" },
+                    { n: "H2O Limão", d: "Bebida levemente gaseificada", p: "6,50" },
+                    { n: "Limoneto", d: "Bebida levemente gaseificada", p: "6,50" },
+                    { n: "Monster 250 ML", d: "Energético Lata", p: "8,00" },
+                    { n: "Monster 473 ML", d: "Energético Lata", p: "12,00" },
+                    { n: "Red Bull Lata 250", d: "Energético Lata", p: "12,00" },
+                    { n: "Skinka", d: "Suco Refrescante Garrafinha", p: "4,00" },
+                    { n: "Soda", d: "Refrigerante lata/garrafa", p: "2,50" }
+                ]
+            },
+            {
+                category: "Sucos", id: "sucos",
+                bannerImg: "https://blog.mercantilatacado.com.br/wp-content/uploads/2024/07/image.jpeg",
+                items: [
+                    { n: "Limao Copo", d: "Suco de limão no copo", p: "6,00" },
+                    { n: "Suco Viagem Coquinho", d: "Suco Engarrafado", p: "15,00 (A partir)" },
+                    { n: "Suco Viagem Goiaba", d: "Suco Engarrafado", p: "15,00 (A partir)" },
+                    { n: "Suco Viagem Laranja", d: "Suco Engarrafado", p: "24,00 (A partir)" },
+                    { n: "Suco Viagem Limão", d: "Suco Engarrafado", p: "15,00 (A partir)" },
+                    { n: "Suco Viagem Maracujá", d: "Suco Engarrafado", p: "16,00 (A partir)" },
+                    { n: "Suco Viagem Tamarindo", d: "Suco Engarrafado", p: "15,00 (A partir)" }
+                ]
+            },
+            {
+                category: "Cerveja", id: "cerveja",
+                bannerImg: "https://t4.ftcdn.net/jpg/13/87/60/51/360_F_1387605140_NY0EplPqK8fIxityv6QmKfUKeHFpeVsN.jpg",
+                items: [
+                    { n: "Amstel", d: "Cerveja", p: "10,00" },
+                    { n: "Amstel Ultra Long", d: "Cerveja Long Neck", p: "7,00" },
+                    { n: "Antarctica 600ml", d: "Cerveja Garrafa", p: "11,00" },
+                    { n: "Antartica Original", d: "Cerveja Garrafa", p: "13,00" },
+                    { n: "Brahma 600ml", d: "Cerveja Garrafa", p: "11,00" },
+                    { n: "Brahma Lata", d: "Cerveja Lata", p: "5,00" },
+                    { n: "Brahma Zero Álcool 355 ml", d: "Cerveja Long Neck/Lata Zero", p: "6,00" },
+                    { n: "Budweiser Long Neck", d: "Cerveja Long Neck", p: "9,00" },
+                    { n: "Corona Long", d: "Cerveja Long Neck", p: "10,00" },
+                    { n: "Devassa 600ml", d: "Cerveja Garrafa", p: "9,00" },
+                    { n: "Estela 600 ML", d: "Cerveja Garrafa Stella Artois", p: "13,00" },
+                    { n: "Heineken 600ml", d: "Cerveja Garrafa", p: "16,00" },
+                    { n: "Heineken Long Neck", d: "Cerveja Long Neck", p: "10,00" },
+                    { n: "Ice Sminorff", d: "Bebida misturada Ice", p: "11,00" },
+                    { n: "Long Estela", d: "Cerveja Long Neck Stella", p: "9,00" },
+                    { n: "Skol Beats E GT", d: "Bebida mista", p: "12,00" },
+                    { n: "Skol Lata", d: "Cerveja Lata", p: "5,00" },
+                    { n: "Spaten 600 ML", d: "Cerveja Garrafa Puro Malte", p: "12,00" },
+                    { n: "Spaten Long Neck", d: "Cerveja Long Neck", p: "7,00" },
+                    { n: "Subzero Lata", d: "Cerveja Lata", p: "4,00" }
+                ]
+            },
+            {
+                category: "Bebidas Quentes", id: "bebidasquentes",
+                bannerImg: "https://scontent.fmoc1-1.fna.fbcdn.net/v/t1.6435-9/96134252_3173772665980232_3159656218163675136_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x720&ctp=s1080x720&_nc_cat=105&ccb=1-7&_nc_sid=0b6b33&_nc_ohc=jL1cXi4g2-cQ7kNvwFRUocK&_nc_oc=AdqWMswhLBTKfeUhw37zzscif5IHJc-TpiGZaN_EK2-xqjaZiJnoGMRFacLMA_pHKh8&_nc_zt=23&_nc_ht=scontent.fmoc1-1.fna&_nc_gid=XXAMZzUfu2MCKVpJxy4vlQ&_nc_ss=7b2a8&oh=00_AQHvho24FAgi2zWbtdzCcMB0NB9UJaOL3PpP3Fqd03UfWA&oe=6A9DDE87",
+                items: [
+                    { n: "Combo Absolut", d: "Combo premium", p: "150,00 (A partir)" },
+                    { n: "Dose Cavalo Branco", d: "Dose Whisky", p: "12,00 (A partir)" },
+                    { n: "Seleta Cachaça", d: "Dose Cachaça", p: "4,00 (A partir)" },
+                    { n: "Tekila", d: "Dose Tequila", p: "18,00 (A partir)" }
+                ]
+            },
+            {
+                category: "Bomboniere", id: "bomboniere",
+                bannerImg: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FpeGElMjBkZSUyMGNob2NvbGF0ZXN8ZW58MHx8MHx8fDA%3D",
+                items: [
+                    { n: "Balas", d: "Bomboniere - Unidade", p: "1,00" },
+                    { n: "Baton", d: "Chocolate", p: "2,00" },
+                    { n: "Bis Oreo / Black", d: "Caixinha / Unidade", p: "3,50" },
+                    { n: "Bombom", d: "Chocolate", p: "1,50" },
+                    { n: "Choco Lacta / Diamante", d: "Chocolate em barra", p: "3,00" },
+                    { n: "Chocolate Lancy Lacta", d: "Chocolate em barra", p: "3,00" },
+                    { n: "Chocolate Star", d: "Chocolate", p: "3,00" },
+                    { n: "Chokito / Prestigio", d: "Chocolate", p: "3,00" },
+                    { n: "Halls", d: "Balas Refrescantes", p: "2,00" },
+                    { n: "Mentos", d: "Balas Diversas", p: "2,50" },
+                    { n: "Talento", d: "Chocolate em barra pequeno", p: "3,00" },
+                    { n: "Trident", d: "Chiclete", p: "3,00" }
+                ]
+            }
+        ];
+
+        // --- SISTEMA DE CARRINHO E PAGAMENTO ---
+        let cart = [];
+        let selectedPayment = "";
+
+        function parsePrice(priceStr) {
+            const match = priceStr.match(/[\d,]+/);
+            if(match) {
+                return parseFloat(match[0].replace(',', '.'));
+            }
+            return 0;
+        }
+
+        function addToCart(name, priceStr) {
+            const price = parsePrice(priceStr);
+            const existingItem = cart.find(item => item.name === name);
+            
+            if(existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name: name, price: price, priceStr: priceStr, quantity: 1 });
+            }
+            
+            updateCartUI();
+            
+            const btn = event.currentTarget;
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="ph-fill ph-check-circle text-lg"></i> Adicionado`;
+            btn.classList.add('bg-itaGreen', 'text-white', 'border-itaGreen');
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('bg-itaGreen', 'text-white', 'border-itaGreen');
+            }, 1000);
+        }
+
+        function updateQuantity(index, delta) {
+            if(cart[index]) {
+                cart[index].quantity += delta;
+                if(cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                updateCartUI();
+            }
+        }
+
+        function setPayment(method) {
+            selectedPayment = method;
+            const buttons = document.querySelectorAll('.pay-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('border-itaGreen', 'bg-surfaceElevated');
+                if(btn.innerText.includes(method)) {
+                    btn.classList.add('border-itaGreen', 'bg-surfaceElevated');
+                }
+            });
+
+            const changeContainer = document.getElementById('change-container');
+            if(method === 'Dinheiro') {
+                changeContainer.classList.remove('hidden');
+            } else {
+                changeContainer.classList.add('hidden');
+            }
+        }
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const headerCount = document.getElementById('header-cart-count');
+            const floatingCount = document.getElementById('floating-cart-count');
+            
+            let total = 0;
+            let totalItems = 0;
+            cartItemsContainer.innerHTML = '';
+
+            if(cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-10 text-zinc-500 opacity-70">
+                        <i class="ph ph-shopping-bag-open text-5xl mb-2"></i>
+                        <p class="text-sm">Seu carrinho está vazio.</p>
+                    </div>`;
+            } else {
+                cart.forEach((item, index) => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    totalItems += item.quantity;
+                    
+                    cartItemsContainer.innerHTML += `
+                        <div class="flex justify-between items-center bg-surface border border-surfaceBorder p-3 rounded-xl">
+                            <div class="flex-1 pr-2">
+                                <h4 class="font-bold text-itaWhite text-xs md:text-sm leading-tight mb-0.5">${item.name}</h4>
+                                <span class="text-itaGreen font-bold text-xs">R$ ${item.priceStr}</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-surfaceBorder rounded-lg px-2 py-1">
+                                <button onclick="updateQuantity(${index}, -1)" class="text-itaWhite hover:text-itaRed"><i class="ph-bold ph-minus text-xs"></i></button>
+                                <span class="font-bold text-xs w-4 text-center">${item.quantity}</span>
+                                <button onclick="updateQuantity(${index}, 1)" class="text-itaWhite hover:text-itaGreen"><i class="ph-bold ph-plus text-xs"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            cartTotal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            
+            [headerCount, floatingCount].forEach(el => {
+                if(totalItems > 0) {
+                    el.innerText = totalItems;
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            const drawer = document.getElementById('cart-drawer');
+            
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => drawer.classList.remove('translate-x-full'), 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+
+        function finalizeOrder() {
+            if (cart.length === 0) {
+                alert("Seu carrinho está vazio! Adicione itens antes de finalizar.");
+                return;
+            }
+
+            const name = document.getElementById('client-name').value.trim();
+            const address = document.getElementById('client-address').value.trim();
+            const change = document.getElementById('client-change').value.trim();
+
+            if (!name) {
+                alert("Por favor, preencha o seu Nome Completo.");
+                document.getElementById('client-name').focus();
+                return;
+            }
+
+            if (!address) {
+                alert("Por favor, preencha o Endereço de Entrega.");
+                document.getElementById('client-address').focus();
+                return;
+            }
+
+            if (!selectedPayment) {
+                alert("Por favor, selecione uma Forma de Pagamento.");
+                return;
+            }
+
+            let msg = `*🍕 NOVO PEDIDO - BELLA ITÁLIA*%0A%0A`;
+            msg += `👤 *Cliente:* ${encodeURIComponent(name)}%0A`;
+            msg += `📍 *Endereço:* ${encodeURIComponent(address)}%0A`;
+            msg += `💳 *Pagamento:* ${encodeURIComponent(selectedPayment)}`;
+            if(selectedPayment === 'Dinheiro' && change) {
+                msg += ` (Troco para: ${encodeURIComponent(change)})`;
+            }
+            msg += `%0A%0A-----------------------------------%0A*ITENS DO PEDIDO:*%0A`;
+
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                msg += `▪️ *${item.quantity}x* ${encodeURIComponent(item.name)} - R$ ${itemTotal.toFixed(2).replace('.', ',')}%0A`;
+            });
+            
+            msg += `-----------------------------------%0A`;
+            msg += `💰 *TOTAL A PAGAR: R$ ${total.toFixed(2).replace('.', ',')}*`;
+
+            window.open(`https://wa.me/5538988141262?text=${msg}`, '_blank');
+        }
+
+        // --- RENDERIZAÇÃO DO MENU ---
+        const tabsContainer = document.getElementById('category-tabs');
+        const menuContainer = document.getElementById('menu-container');
+        let currentCategory = menuData[0].id;
+
+        function renderTabs() {
+            tabsContainer.innerHTML = menuData.map(cat => `
+                <button id="tab-${cat.id}" onclick="changeCategory('${cat.id}')" 
+                    class="px-4 md:px-5 py-2 md:py-2.5 rounded-full font-bold text-xs md:text-sm whitespace-nowrap transition-all duration-300 border 
+                    ${currentCategory === cat.id 
+                        ? 'bg-itaGreen text-white border-itaGreen shadow-[0_0_15px_rgba(0,140,69,0.4)] scale-105' 
+                        : 'bg-surfaceElevated/80 backdrop-blur-md text-zinc-300 border-surfaceBorder hover:border-itaRed hover:text-white'}">
+                    ${cat.category}
+                </button>
+            `).join('');
+        }
+
+        function renderMenu() {
+            const categoryData = menuData.find(c => c.id === currentCategory);
+            
+            menuContainer.style.opacity = 0;
+            
+            setTimeout(() => {
+                let html = `
+                    <div class="w-full h-32 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden relative mb-6 md:mb-10 shadow-lg shadow-black/50">
+                        <img src="${categoryData.bannerImg}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                            <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-widest uppercase drop-shadow-xl text-center px-4">
+                                ${categoryData.category}
+                            </h2>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                `;
+
+                html += categoryData.items.map(item => `
+                    <div class="bg-surfaceElevated/80 backdrop-blur-md border border-surfaceBorder rounded-2xl p-4 md:p-6 group hover:border-itaGreen/60 transition-all flex flex-col h-full shadow-lg shadow-black/50 relative overflow-hidden">
+                        
+                        <div class="absolute top-0 left-0 w-1 h-full bg-itaGreen opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        
+                        <div class="flex justify-between items-start gap-3 md:gap-4 mb-2 md:mb-3">
+                            <h3 class="font-bold text-lg md:text-xl text-itaWhite leading-tight group-hover:text-itaRed transition-colors">${item.n}</h3>
+                            <span class="bg-surfaceBorder text-itaGreen font-extrabold px-2 md:px-3 py-1 rounded-lg text-xs md:text-sm whitespace-nowrap border border-surfaceBorder group-hover:border-itaGreen transition-colors">
+                                R$ ${item.p}
+                            </span>
+                        </div>
+                        
+                        ${item.d ? `<p class="text-xs md:text-sm text-zinc-300 mb-4 md:mb-6 flex-grow leading-relaxed">${item.d}</p>` : '<div class="mb-4 md:mb-6 flex-grow"></div>'}
+                        
+                        <button onclick="addToCart('${item.n.replace(/'/g, "\\'")}', '${item.p}')" 
+                           class="w-full py-2.5 md:py-3 bg-surfaceBorder hover:bg-itaGreen text-itaWhite hover:text-white rounded-xl text-center font-bold text-xs md:text-sm transition-all duration-300 flex items-center justify-center gap-2 border border-transparent hover:border-itaRed shadow-lg mt-auto">
+                            <i class="ph-bold ph-plus"></i> Adicionar
+                        </button>
+                    </div>
+                `).join('');
+                
+                html += `</div>`;
+
+                menuContainer.innerHTML = html;
+                menuContainer.style.opacity = 1;
+                menuContainer.style.transition = 'opacity 0.4s ease-in-out';
+            }, 200);
+        }
+
+        function changeCategory(id) {
+            currentCategory = id;
+            renderTabs();
+            renderMenu();
+            
+            const activeBtn = document.getElementById('tab-' + id);
+            if(activeBtn) {
+                activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+        }
+
+        renderTabs();
+        renderMenu();
+        updateCartUI();
+    </script>
+</body>
+</html>
